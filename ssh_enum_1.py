@@ -21,7 +21,7 @@
 
 import argparse
 import logging
-import connect
+import socket
 import sys
 import warnings
 from cryptography.utils import CryptographyDeprecationWarning
