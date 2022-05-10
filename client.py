@@ -2,7 +2,7 @@ import socket
 
 s = socket.socket()
 
-port = 8080
+port = 3022
 
 try:
     s.connect(('127.0.0.1', port))
